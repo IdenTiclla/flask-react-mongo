@@ -24,6 +24,7 @@ export const Users = () => {
         })
         const data = await response.json()
         console.log(data)
+        await getUsers()
     }
 
     const getUsers = async() => {
