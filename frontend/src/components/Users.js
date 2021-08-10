@@ -35,6 +35,16 @@ export const Users = () => {
     useEffect(()=> {
         getUsers()
     }, [])
+
+
+    const deleteUser = async(id) => {
+        const response = await fetch(`${API}/users/${id}`, {
+            method: 'DELETE'
+        })
+        const data = await response.json()
+        console.log(data)
+        await getUsers()
+    }
     return (
     <div className="row">
         <div className="col-md-4">
@@ -92,8 +102,15 @@ export const Users = () => {
                             <td>{user.email}</td>
                             <td>{user.password}</td>
                             <td>
-                                <button className="btn btn-secondary btn-sm btn-block">Edit</button>
-                                <button className="btn btn-danger btn-sm btn-block">Delete</button>
+                                <button 
+                                    className="btn btn-secondary btn-sm btn-block">
+                                        Edit
+                                </button>
+                                <button 
+                                    onClick={()=> deleteUser(user._id)}
+                                    className="btn btn-danger btn-sm btn-block">
+                                        Delete
+                                </button>
                             </td>
                         </tr>
                     ))}
