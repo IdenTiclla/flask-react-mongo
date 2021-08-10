@@ -44,8 +44,12 @@ def get_user(id):
     })
 
 @app.route('/users/<id>', methods=['DELETE'])
-def delete_user():
-    return 'received'
+def delete_user(id):
+    print(id)
+    db.delete_one({'_id': ObjectId(id)})
+    return jsonify({
+        'msg': 'User deleted.'
+    })
 
 @app.route('/users/<id>', methods=['PUT'])
 def update_user(id):
