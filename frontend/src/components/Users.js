@@ -38,13 +38,16 @@ export const Users = () => {
 
 
     const deleteUser = async(id) => {
-        const response = await fetch(`${API}/users/${id}`, {
-            method: 'DELETE'
-        })
-        const data = await response.json()
-        console.log(data)
-        await getUsers()
-    }
+        const userResponse = window.confirm('Are you sure you want to delete it')
+        if (userResponse) {
+            const response = await fetch(`${API}/users/${id}`, {
+               method: 'DELETE'
+            })
+            const data = await response.json()
+            console.log(data)
+            await getUsers()
+        }
+    }   
     return (
     <div className="row">
         <div className="col-md-4">
