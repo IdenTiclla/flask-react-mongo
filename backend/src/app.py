@@ -31,11 +31,19 @@ def create_user():
     })
     return jsonify(str(ObjectId(id)))
 
-@app.route('/users/<id>', methods=['POST'])
-def get_user(id):
-    return 'received'
-
 @app.route('/users/<id>', methods=['GET'])
+def get_user(id):
+    print(id)
+    user = db.find_one({'_id': ObjectId(id)})
+    print(user)
+    return jsonify({
+        '_id': str(ObjectId(user['_id'])),
+        'name': user['name'],
+        'email': user['email'],
+        'password': user['password']
+    })
+
+@app.route('/users/<id>', methods=['DELETE'])
 def delete_user():
     return 'received'
 
