@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 const API = process.env.REACT_APP_API
 export const Users = () => {
@@ -6,6 +6,8 @@ export const Users = () => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const [users, setUsers] = useState([])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -24,9 +26,18 @@ export const Users = () => {
         console.log(data)
     }
 
+    const getUsers = async() => {
+        const response = await fetch(`${API}/users`)
+        const data = await response.json()
+        setUsers(data)
+    }
+
+    useEffect(()=> {
+        getUsers()
+    }, [])
     return (
     <div className="row">
-        <div className="col md-4">
+        <div className="col-md-4">
             <form onSubmit={handleSubmit} className="card card-body">
                 <div className="form-group">
                     <input 
@@ -64,8 +75,31 @@ export const Users = () => {
                 </button>
             </form>
         </div>
-        <div className="col md-8">
-
+        <div className="col-md-8">
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Operations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map(user => (
+                        <tr key={user._id}>
+                            <td>{user.name}</td>
+                            <td>{user.email}</td>
+                            <td>{user.password}</td>
+                            <td>
+                                <button className="btn btn-secondary btn-sm btn-block">Edit</button>
+                                <button className="btn btn-danger btn-sm btn-block">Delete</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            
         </div>
     </div>
     )
